@@ -1,5 +1,7 @@
 package com.noelevans555.logo3d.compiler.exception;
 
+import java.util.Optional;
+
 import lombok.Getter;
 
 /**
@@ -14,7 +16,18 @@ public abstract class ProgramException extends CompilerException {
 
     private static final long serialVersionUID = 1L;
 
-    private final String operation;
+    private final Optional<String> operation;
+
+    /**
+     * Constructor for a exception which is not directly linked to a specific
+     * operation.
+     *
+     * @param message The detail message for the exception.
+     */
+    public ProgramException(final String message) {
+        super(message);
+        this.operation = Optional.empty();
+    }
 
     /**
      * Constructor.
@@ -24,7 +37,7 @@ public abstract class ProgramException extends CompilerException {
      */
     public ProgramException(final String message, final String operation) {
         super(message);
-        this.operation = operation;
+        this.operation = Optional.of(operation);
     }
 
 }

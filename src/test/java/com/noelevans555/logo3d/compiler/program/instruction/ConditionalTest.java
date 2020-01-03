@@ -82,7 +82,7 @@ public class ConditionalTest extends AbstractInstructionTest {
         return new Conditional(leftParameter, operator, rightParameter, ifProgram, elseProgram);
     }
 
-    public void verifyStateInteractions() {
+    public void verifyStateInteractions() throws Exception {
         InOrder inOrder = inOrder(state);
         inOrder.verify(state).pushStack();
         inOrder.verify(state).popStack();

@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
-import com.noelevans555.logo3d.compiler.exception.SemanticException;
+import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProcedureRegistryTest {
@@ -44,8 +44,8 @@ public class ProcedureRegistryTest {
         assertSame(program, procedure.getProcedureBody());
     }
 
-    @Test(expected = SemanticException.class)
-    public void registerProcedure_whenProcedureAlreadyExists_throwsSemanticException() throws Exception {
+    @Test(expected = EntityReferenceException.class)
+    public void registerProcedure_whenProcedureAlreadyExists_throwsBadEntityException() throws Exception {
         procedureRegistry.registerProcedure(PROCEDURE_NAME, PARAMETER_NAMES);
         procedureRegistry.registerProcedure(PROCEDURE_NAME.toUpperCase(), PARAMETER_NAMES);
     }

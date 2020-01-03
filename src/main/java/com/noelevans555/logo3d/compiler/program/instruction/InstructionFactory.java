@@ -115,7 +115,7 @@ public class InstructionFactory {
      * @return The instruction implementation.
      * @throws InternalException If the instruction cannot be built.
      */
-    public Instruction buildInstruction(final String token, final List<Object> instructionAssembly)
+    public Instruction buildInstruction(final String token, final List<?> instructionAssembly)
             throws InternalException {
 
         Class<? extends Instruction> implementationClass = INSTRUCTION_DEFINITIONS

@@ -92,7 +92,7 @@ public class ProgramFactory {
         private Instruction buildInstruction(final int depth) throws CompilerException {
             String token = tokenReader.readToken();
             AssemblyStep[] assemblySteps = instructionFactory.getAssemblySteps(token);
-            List<Object> instructionAssembly = getInstructionAssembly(assemblySteps, token, depth);
+            List<?> instructionAssembly = getInstructionAssembly(assemblySteps, token, depth);
             return instructionFactory.buildInstruction(token, instructionAssembly);
         }
 
@@ -107,8 +107,8 @@ public class ProgramFactory {
          * @return Program elements required to build the instruction.
          * @throws CompilerException If the program elements cannot be assembled.
          */
-        private List<Object> getInstructionAssembly(final AssemblyStep[] assemblySteps, final String token,
-                final int depth) throws CompilerException {
+        private List<?> getInstructionAssembly(final AssemblyStep[] assemblySteps, final String token, final int depth)
+                throws CompilerException {
 
             List<Object> instructionAssembly = new ArrayList<>();
 

@@ -54,9 +54,10 @@ public class MissingTokenException extends SyntaxException {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("SyntaxException [message=" + getMessage() + ", operation=" + getOperation());
+        builder.append("MissingTokenException [message=" + getMessage());
+        getOperation().ifPresent(e -> builder.append(", operation=" + getOperation().get()));
         expectedToken.ifPresent(e -> builder.append(", expectedToken=" + e));
-        expectedTokens.ifPresent(e -> builder.append(", expectedTokens=" + e.toString()));
+        expectedTokens.ifPresent(e -> builder.append(", expectedTokens=" + e));
         builder.append(", recentlyReadTokens=" + getRecentlyReadTokens() + "]");
         return builder.toString();
     }

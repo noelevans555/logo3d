@@ -1,5 +1,7 @@
 package com.noelevans555.logo3d.compiler.exception;
 
+import lombok.Getter;
+
 /**
  * Represents an exception encountered during Logo3d compilation which is due to
  * a semantic fault with the input program.
@@ -7,14 +9,24 @@ package com.noelevans555.logo3d.compiler.exception;
  * @author Noel Evans (noelevans555@gmail.com)
  */
 
+@Getter
 public class SemanticException extends ProgramException {
 
     public static final String INVALID_COLOR_AS_INPUT = "Invalid color as input";
     public static final String INVALID_NUMERIC_AS_INPUT = "Invalid numeric as input";
     public static final String CANNOT_COMBINE_COLOR_AND_NUMERIC = "Cannot combine color and numeric";
-    public static final String PROCEDURE_ALREADY_EXISTS = "Procedure already exists";
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Constructor for a exception which is not directly linked to a specific
+     * operation.
+     *
+     * @param message The detail message for the exception.
+     */
+    public SemanticException(final String message) {
+        super(message);
+    }
 
     /**
      * Constructor.
@@ -28,7 +40,11 @@ public class SemanticException extends ProgramException {
 
     @Override
     public String toString() {
-        return "SemanticException [message=" + getMessage() + ", operation=" + getOperation() + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SemanticException [message=" + getMessage());
+        getOperation().ifPresent(e -> builder.append(", operation=" + getOperation().get()));
+        builder.append("]");
+        return builder.toString();
     }
 
 }

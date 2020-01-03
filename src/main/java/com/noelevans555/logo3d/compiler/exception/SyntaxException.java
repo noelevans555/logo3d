@@ -41,8 +41,12 @@ public class SyntaxException extends ProgramException {
 
     @Override
     public String toString() {
-        return "SyntaxException [message=" + getMessage() + ", operation=" + getOperation() + ", recentlyReadTokens="
-                + recentlyReadTokens + "]";
+        StringBuilder builder = new StringBuilder();
+        builder.append("SyntaxException [message=" + getMessage());
+        getOperation().ifPresent(e -> builder.append(", operation=" + getOperation().get()));
+        builder.append(", recentlyReadTokens=" + recentlyReadTokens);
+        builder.append("]");
+        return builder.toString();
     }
 
 }

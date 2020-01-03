@@ -9,6 +9,7 @@ import com.noelevans555.logo3d.model.LogoColor;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * Represents the color evaluation result of a Logo3d parameter. Can be combined
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@ToString
 public class ColorResult extends EvaluationResult {
 
     private final LogoColor color;

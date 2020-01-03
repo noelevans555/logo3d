@@ -23,8 +23,6 @@ import lombok.ToString;
 @ToString
 public class BuiltInFunction implements Parameter {
 
-    private static final int ONE_EIGHTY = 180;
-
     private final boolean isNegated;
     private final String functionName;
     private final Parameter parameter;
@@ -43,50 +41,28 @@ public class BuiltInFunction implements Parameter {
             functionResult = Math.sqrt(parameterValue);
             break;
         case "sin":
-            functionResult = Math.sin(degreesToRadians(parameterValue));
+            functionResult = Math.sin(Math.toRadians(parameterValue));
             break;
         case "cos":
-            functionResult = Math.cos(degreesToRadians(parameterValue));
+            functionResult = Math.cos(Math.toRadians(parameterValue));
             break;
         case "tan":
-            functionResult = Math.tan(degreesToRadians(parameterValue));
+            functionResult = Math.tan(Math.toRadians(parameterValue));
             break;
         case "asin":
-            functionResult = radiansToDegrees(Math.asin(parameterValue));
+            functionResult = Math.toDegrees(Math.asin(parameterValue));
             break;
         case "acos":
-            functionResult = radiansToDegrees(Math.acos(parameterValue));
+            functionResult = Math.toDegrees(Math.acos(parameterValue));
             break;
         case "atan":
-            functionResult = radiansToDegrees(Math.atan(parameterValue));
+            functionResult = Math.toDegrees(Math.atan(parameterValue));
             break;
         default:
             throw new InternalException("Unrecognized built-in function: " + functionName);
         }
 
         return new NumericResult(functionResult).conditionallyNegate(isNegated);
-    }
-
-    /**
-     * Converts a value specified in degrees to the equivalent value expressed in
-     * radians.
-     *
-     * @param degrees Value specified in degrees.
-     * @return Equivalent value expressed in radians.
-     */
-    private double degreesToRadians(final double degrees) {
-        return degrees * Math.PI / ONE_EIGHTY;
-    }
-
-    /**
-     * Converts a value specified in radians to the equivalent value expressed in
-     * degrees.
-     *
-     * @param radians Value specified in radians.
-     * @return Equivalent value expressed in degrees.
-     */
-    private double radiansToDegrees(final double radians) {
-        return radians * ONE_EIGHTY / Math.PI;
     }
 
 }

@@ -71,7 +71,7 @@ public class RunProcedureTest extends AbstractInstructionTest {
         verifyState(true);
     }
 
-    public void verifyState(final boolean assertValuesAreStored) {
+    public void verifyState(final boolean assertValuesAreStored) throws Exception {
         InOrder inOrder = inOrder(state);
         inOrder.verify(state).pushStack();
         if (assertValuesAreStored) {

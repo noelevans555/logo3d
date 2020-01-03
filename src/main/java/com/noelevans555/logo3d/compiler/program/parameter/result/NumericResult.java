@@ -6,6 +6,7 @@ import com.noelevans555.logo3d.compiler.exception.SemanticException;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * Represents the numeric evaluation result of a Logo3d parameter. Can be
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@ToString
 public class NumericResult extends EvaluationResult {
 
     private final double value;

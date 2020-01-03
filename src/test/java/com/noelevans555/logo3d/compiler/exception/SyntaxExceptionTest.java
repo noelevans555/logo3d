@@ -9,14 +9,16 @@ import com.google.common.collect.ImmutableList;
 public class SyntaxExceptionTest {
 
     private static final String DETAIL = "The program structure is bad";
-    private static final String OPERATION = "readParameter";
+    private static final String OPERATION = "ReadParameter";
     private static final ImmutableList<String> READ_TOKENS = ImmutableList.of("tokenA", "tokenB");
+
+    private static final String EXPECTED_TOSTRING = String.format(
+            "SyntaxException [message=%s, operation=%s, recentlyReadTokens=%s]", DETAIL, OPERATION, READ_TOKENS);
 
     @Test
     public void toString_returnsExpectedString() {
         Exception e = new SyntaxException(DETAIL, OPERATION, READ_TOKENS);
-        assertEquals("SyntaxException [message=" + DETAIL + ", operation=" + OPERATION + ", recentlyReadTokens="
-                + READ_TOKENS.toString() + "]", e.toString());
+        assertEquals(EXPECTED_TOSTRING, e.toString());
     }
 
 }

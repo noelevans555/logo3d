@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.noelevans555.logo3d.compiler.exception.SemanticException;
+import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 
 /**
  * A registry of named procedures which have been defined within a Logo3d
@@ -26,13 +26,13 @@ class ProcedureRegistry {
      * @param procedureName The name by which the procedure is registered.
      * @param parameterNames Names of the input parameters expected by the
      *        procedure.
-     * @throws SemanticException If a procedure has already been registered with the
-     *         specified name (case insensitive).
+     * @throws EntityReferenceException If a procedure has already been registered
+     *         with the specified name (case insensitive).
      */
     public void registerProcedure(final String procedureName, final List<String> parameterNames)
-            throws SemanticException {
+            throws EntityReferenceException {
         if (getProcedure(procedureName).isPresent()) {
-            throw new SemanticException(SemanticException.PROCEDURE_ALREADY_EXISTS, procedureName);
+            throw new EntityReferenceException(EntityReferenceException.PROCEDURE_ALREADY_EXISTS, procedureName);
         }
         registeredProcedures.put(procedureName.toLowerCase(), new Procedure(procedureName, parameterNames));
     }

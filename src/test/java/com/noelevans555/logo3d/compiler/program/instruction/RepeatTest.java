@@ -48,7 +48,7 @@ public class RepeatTest extends AbstractInstructionTest {
     }
 
     @After
-    public void verifyState() {
+    public void verifyState() throws Exception {
         InOrder inOrder = inOrder(state);
         inOrder.verify(state).pushStack();
         inOrder.verify(state).popStack();
