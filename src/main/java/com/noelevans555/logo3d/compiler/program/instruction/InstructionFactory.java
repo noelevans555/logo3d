@@ -68,7 +68,7 @@ public class InstructionFactory {
                 .put("down", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
                 .put("fd", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
                 .put("forward", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
-                .put("goto", new InstructionDefinition(Mark.class, AssemblyStep.NAME))
+                .put("goto", new InstructionDefinition(Goto.class, AssemblyStep.NAME))
                 .put("if", new InstructionDefinition(Conditional.class, AssemblyStep.PARAMETER, AssemblyStep.COMPARATOR,
                         AssemblyStep.PARAMETER, AssemblyStep.PROGRAM, AssemblyStep.OPTIONAL_ELSE, AssemblyStep.PROGRAM))
                 .put("left", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
