@@ -82,7 +82,7 @@ public class InstructionFactory {
                 .put("pu", new InstructionDefinition(PenUp.class))
                 .put("repeat", new InstructionDefinition(Repeat.class, AssemblyStep.PARAMETER, AssemblyStep.PROGRAM))
                 .put("reverse", new InstructionDefinition(Reverse.class, AssemblyStep.PARAMETER))
-                .put("right", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
+                .put("right", new InstructionDefinition(TurnRight.class, AssemblyStep.PARAMETER))
                 .put("rl", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
                 .put("rollleft", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
                 .put("rollright", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
