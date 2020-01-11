@@ -41,6 +41,26 @@ public class Turtle {
     }
 
     /**
+     * Returns a snapshot of the turtle's current pose.
+     *
+     * @return The turtle's current pose.
+     */
+    public Pose getPose() {
+        return new Pose(location, orientation.getMatrix());
+    }
+
+    /**
+     * Sets the turtle's pose to the value specified. The movement is not recorded
+     * as a traversed line.
+     *
+     * @param pose Pose that the turtle is to adopt.
+     */
+    public void setPose(final Pose pose) {
+        location = pose.getLocation();
+        orientation.setMatrix(pose.getOrientation());
+    }
+
+    /**
      * Whether the turtle is to record lines during onward movements.
      *
      * @param drawLines Whether the turtle is to record lines during onward

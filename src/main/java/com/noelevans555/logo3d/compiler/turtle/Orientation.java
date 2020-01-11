@@ -1,5 +1,9 @@
 package com.noelevans555.logo3d.compiler.turtle;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Represents the direction that the Logo3d turtle is currently facing in three
  * dimensional space.
@@ -7,6 +11,8 @@ package com.noelevans555.logo3d.compiler.turtle;
  * @author Noel Evans (noelevans555@gmail.com)
  */
 
+@Getter(AccessLevel.PACKAGE)
+@Setter(AccessLevel.PACKAGE)
 class Orientation {
 
     private static final double[] UNIT = new double[] {0d, 1d, 0d, 0d};

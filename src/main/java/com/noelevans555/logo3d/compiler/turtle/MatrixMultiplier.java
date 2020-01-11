@@ -1,7 +1,8 @@
 package com.noelevans555.logo3d.compiler.turtle;
 
 /**
- * Utility class for calculating the dot products of matrices and vectors.
+ * Utility class for calculating the dot products of four-dimensional matrices
+ * and vectors.
  *
  * @author Noel Evans (noelevans555@gmail.com)
  */
@@ -16,7 +17,7 @@ final class MatrixMultiplier {
     }
 
     /**
-     * Calculates the dot product of two matrices.
+     * Calculates the dot product of two four-dimensional matrices.
      *
      * @param matrixA Input matrix one.
      * @param matrixB Input matrix two.
@@ -37,7 +38,8 @@ final class MatrixMultiplier {
     }
 
     /**
-     * Calculates the dot product of a matrix with a vector.
+     * Calculates the dot product of a four-dimensional matrix and a corresponding
+     * vector.
      *
      * @param matrixA Input matrix.
      * @param vectorB Input vector.

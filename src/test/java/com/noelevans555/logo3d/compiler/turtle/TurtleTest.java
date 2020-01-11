@@ -5,8 +5,10 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -30,11 +32,23 @@ public class TurtleTest {
     private static final LogoLine EXPECTED_LINE = new LogoLine(EXPECTED_LINE_START, EXPECTED_LINE_END,
             EXPECTED_LINE_COLOR);
 
+    private static final double[][] TEST_MATRIX = new double[][] {
+        { 5.2, 4.7, 3.1, 4.4 },
+        { 1.5, 5.6, 8.8, 7.2 },
+        { 5.2, 1.2, 0.0, 9.5 },
+        { 7.8, 4.4, 0.9, 3.4 }};
+
     @Mock
-    Orientation orientation;
+    private Orientation orientation;
 
     @InjectMocks
     private Turtle turtle;
+
+    @Before
+    public void setup() {
+        when(orientation.getUnitStep()).thenReturn(TEST_UNIT_STEP);
+        when(orientation.getMatrix()).thenReturn(TEST_MATRIX);
+    }
 
     @Test
     public void turnLeft_rotatesOrientationByExpectedValue() {
@@ -74,24 +88,36 @@ public class TurtleTest {
 
     @Test
     public void moveForward_whenDrawingWithColor_drawsLineWithExpectedColor() {
-        // given
-        when(orientation.getUnitStep()).thenReturn(TEST_UNIT_STEP);
-        // when
         turtle.setColor(EXPECTED_LINE_COLOR);
         turtle.moveForward(10);
-        // then
         assertEquals(ImmutableList.of(EXPECTED_LINE), turtle.getLogoLines());
     }
 
     @Test
     public void moveForward_whenNotDrawing_drawsNoLine() {
-        // given
-        when(orientation.getUnitStep()).thenReturn(new double[] { 100.0, 200.0, 300.0 });
-        // when
         turtle.setDrawing(false);
         turtle.moveForward(10);
-        // then
         assertTrue(turtle.getLogoLines().isEmpty());
+    }
+
+    @Test
+    public void getPose_afterMoving_returnsExpectedPose() {
+        turtle.moveForward(10);
+        Pose outputPose = turtle.getPose();
+        assertEquals(EXPECTED_LINE_END, outputPose.getLocation());
+        MatrixUtility.assertEqual(TEST_MATRIX, outputPose.getOrientation());
+    }
+
+    @Test
+    public void setPose_updatesOrientationAndDrawsLineFromExpectedLocation() {
+        Pose pose = new Pose(EXPECTED_LINE_END, TEST_MATRIX);
+        turtle.setPose(pose);
+        ArgumentCaptor<?> matrixCaptor = ArgumentCaptor.forClass(Object.class);
+        verify(orientation).setMatrix((double[][]) matrixCaptor.capture());
+        MatrixUtility.assertEqual(TEST_MATRIX, (double[][]) matrixCaptor.getValue());
+        // confirm changed in location was applied
+        turtle.moveForward(10);
+        assertEquals(EXPECTED_LINE_END, turtle.getLogoLines().get(0).getStart());
     }
 
 }

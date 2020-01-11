@@ -1,12 +1,8 @@
 package com.noelevans555.logo3d.compiler.turtle;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
 public class MatrixMultiplierTest {
-
-    private static final double DELTA = 1.0E-9;
 
     private static final double[][] TEST_MATRIX_A = new double[][] { new double[] { 0.5, 0.1, 0.3, 0.2 },
             new double[] { 0.1, -0.2, 0.8, -0.6 }, new double[] { 0.3, 0.4, -0.7, 0.4 },
@@ -26,26 +22,12 @@ public class MatrixMultiplierTest {
 
     @Test
     public void multiply_withMatrices_returnsExpectedMatrix() {
-        assertEqual(EXPECTED_PRODUCT, MatrixMultiplier.multiply(TEST_MATRIX_A, TEST_MATRIX_B));
+        MatrixUtility.assertEqual(EXPECTED_PRODUCT, MatrixMultiplier.multiply(TEST_MATRIX_A, TEST_MATRIX_B));
     }
 
     @Test
     public void multiply_withMatrixAndVector_returnsExpectedMatrix() {
-        assertEqual(EXPECTED_VECTOR, MatrixMultiplier.multiply(TEST_MATRIX_A, TEST_VECTOR));
-    }
-
-    private void assertEqual(double[][] expected, double[][] actual) {
-        for (int row = 0; row < 4; row++) {
-            for (int column = 0; column < 4; column++) {
-                assertEquals(expected[row][column], actual[row][column], DELTA);
-            }
-        }
-    }
-
-    private void assertEqual(double[] expected, double[] actual) {
-        for (int row = 0; row < 4; row++) {
-            assertEquals(expected[row], actual[row], DELTA);
-        }
+        MatrixUtility.assertEqual(EXPECTED_VECTOR, MatrixMultiplier.multiply(TEST_MATRIX_A, TEST_VECTOR));
     }
 
 }
