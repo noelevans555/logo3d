@@ -1,7 +1,7 @@
 package com.noelevans555.logo3d.compiler.program.parameter;
 
 import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class VariableReference implements Parameter {
     private final String variableName;
 
     @Override
-    public EvaluationResult evaluate(final State state) throws EntityReferenceException {
+    public Result evaluate(final State state) throws EntityReferenceException {
         return state.retrieveResult(variableName).conditionallyNegate(isNegated);
     }
 

@@ -6,15 +6,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 
 public class StackFrameTest {
 
-    private static final EvaluationResult TEST_RESULT = new NumericResult(4.3);
-    private static final EvaluationResult ALT_RESULT = new NumericResult(0.1);
+    private static final Result TEST_RESULT = new NumericResult(4.3);
+    private static final Result ALT_RESULT = new NumericResult(0.1);
 
-    private StackFrame<EvaluationResult> stackFrame = new StackFrame<>();
+    private StackFrame<Result> stackFrame = new StackFrame<>();
 
     @Test
     public void retrieve_whenResultStored_expectedResultIsReturned() {

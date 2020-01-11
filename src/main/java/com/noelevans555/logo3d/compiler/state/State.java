@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.turtle.Pose;
 
 /**
@@ -20,7 +20,7 @@ import com.noelevans555.logo3d.compiler.turtle.Pose;
 public class State {
 
     // Results and poses are stored in separate frames for independent namespaces.
-    private final List<StackFrame<EvaluationResult>> resultFrames = new ArrayList<>();
+    private final List<StackFrame<Result>> resultFrames = new ArrayList<>();
     private final List<StackFrame<Pose>> poseFrames = new ArrayList<>();
 
     /**
@@ -52,17 +52,17 @@ public class State {
     }
 
     /**
-     * Stores an evaluation result in the program state for later retrieval using
-     * the specified name.
+     * Stores a result in the program state for later retrieval using the specified
+     * name.
      *
-     * @param name The name by which the evaluation result can be retrieved.
-     * @param result The evaluation result to store.
+     * @param name The name by which the result can be retrieved.
+     * @param result The result to store.
      * @param isLocalScope Whether the value should be stored independently of
      *        values stored with the same name at previous stack frames (otherwise
      *        any value stored with matching name at a previous stack frame will be
      *        overwritten).
      */
-    public void store(final String name, final EvaluationResult result, final boolean isLocalScope) {
+    public void store(final String name, final Result result, final boolean isLocalScope) {
         getStorageFrame(resultFrames, name, isLocalScope).store(name, result);
     }
 
@@ -82,15 +82,15 @@ public class State {
     }
 
     /**
-     * Retrieves an evaluation result with the specified name, searching stack
-     * frames in order of the most recently added.
+     * Retrieves a result with the specified name, searching stack frames in order
+     * of the most recently added.
      *
-     * @param name The name of the evaluation result to retrieve.
-     * @return The value of the named evaluation result.
-     * @throws EntityReferenceException If no evaluation result is stored with the
-     *         specified name.
+     * @param name The name of the result to retrieve.
+     * @return The value of the named result.
+     * @throws EntityReferenceException If no result is stored with the specified
+     *         name.
      */
-    public EvaluationResult retrieveResult(final String name) throws EntityReferenceException {
+    public Result retrieveResult(final String name) throws EntityReferenceException {
         return getRetrievalFrame(resultFrames, name, EntityReferenceException.UNDEFINED_VARIABLE).retrieve(name);
     }
 

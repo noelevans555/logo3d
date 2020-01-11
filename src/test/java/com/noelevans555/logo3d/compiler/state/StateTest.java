@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 import com.noelevans555.logo3d.compiler.turtle.Pose;
 import com.noelevans555.logo3d.model.LogoPoint;
@@ -16,8 +16,8 @@ public class StateTest {
 
     private static final String TEST_NAME = "myVar";
     private static final Pose TEST_POSE = new Pose(new LogoPoint(0, 0, 0), new double[4][4]);
-    private static final EvaluationResult TEST_RESULT = new NumericResult(12.9);
-    private static final EvaluationResult ALT_RESULT = new NumericResult(5.2);
+    private static final Result TEST_RESULT = new NumericResult(12.9);
+    private static final Result ALT_RESULT = new NumericResult(5.2);
 
     private State state = new State();
 

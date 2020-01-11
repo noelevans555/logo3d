@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Represents the numeric evaluation result of a Logo3d parameter. Can be
+ * Represents the numeric result of evaluating a Logo3d parameter. Can be
  * combined with other numeric results to determine the result of larger
  * expressions.
  *
@@ -19,7 +19,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class NumericResult extends EvaluationResult {
+public class NumericResult extends Result {
 
     private final double value;
 
@@ -29,7 +29,7 @@ public class NumericResult extends EvaluationResult {
     }
 
     @Override
-    public NumericResult combine(final String operator, final EvaluationResult operand) throws CompilerException {
+    public NumericResult combine(final String operator, final Result operand) throws CompilerException {
         if (operand instanceof ColorResult) {
             throw new SemanticException(SemanticException.CANNOT_COMBINE_COLOR_AND_NUMERIC, operator);
         }

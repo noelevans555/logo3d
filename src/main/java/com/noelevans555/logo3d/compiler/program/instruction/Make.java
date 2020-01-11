@@ -2,7 +2,7 @@ package com.noelevans555.logo3d.compiler.program.instruction;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 import com.noelevans555.logo3d.compiler.turtle.Turtle;
 
@@ -28,7 +28,7 @@ public class Make implements Instruction {
 
     @Override
     public void run(final State state, final Turtle turtle) throws CompilerException {
-        EvaluationResult parameterValue = parameter.evaluate(state);
+        Result parameterValue = parameter.evaluate(state);
         state.store(name, parameterValue, isLocalScope);
     }
 

@@ -3,7 +3,7 @@ package com.noelevans555.logo3d.compiler.program.parameter;
 import java.util.List;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 
 import lombok.AllArgsConstructor;
@@ -26,10 +26,10 @@ public class Expression implements Parameter {
     private final List<String> operators;
 
     @Override
-    public EvaluationResult evaluate(final State state) throws CompilerException {
-        EvaluationResult result = operands.get(0).evaluate(state);
+    public Result evaluate(final State state) throws CompilerException {
+        Result result = operands.get(0).evaluate(state);
         for (int i = 0; i < operators.size(); i++) {
-            EvaluationResult nextResult = operands.get(i + 1).evaluate(state);
+            Result nextResult = operands.get(i + 1).evaluate(state);
             result = result.combine(operators.get(i), nextResult);
         }
         return result;

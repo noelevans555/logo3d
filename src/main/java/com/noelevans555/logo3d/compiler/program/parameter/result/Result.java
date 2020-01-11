@@ -5,22 +5,22 @@ import com.noelevans555.logo3d.compiler.exception.SemanticException;
 import com.noelevans555.logo3d.model.LogoColor;
 
 /**
- * Represents the evaluation result of a Logo3d parameter. Can be combined with
+ * Represents the result of evaluating a Logo3d parameter. Can be combined with
  * other results to determine the result of larger expressions.
  *
  * @author Noel Evans (noelevans555@gmail.com)
  */
 
-public abstract class EvaluationResult {
+public abstract class Result {
 
     /**
      * Conditionally return the negation of the result, otherwise return the
      * original result.
      *
      * @param isNegated Whether the result is to be negated.
-     * @return The conditionally inverted evaluation result
+     * @return The conditionally inverted result
      */
-    public EvaluationResult conditionallyNegate(final boolean isNegated) {
+    public Result conditionallyNegate(final boolean isNegated) {
         return isNegated ? negate() : this;
     }
 
@@ -29,7 +29,7 @@ public abstract class EvaluationResult {
      *
      * @return The negation of this result.
      */
-    abstract EvaluationResult negate();
+    abstract Result negate();
 
     /**
      * Returns a new result determined by applying the specified operator and
@@ -40,7 +40,7 @@ public abstract class EvaluationResult {
      * @return The new result after applying the operator and operand.
      * @throws CompilerException If the operation cannot be performed.
      */
-    public abstract EvaluationResult combine(String operator, EvaluationResult operand) throws CompilerException;
+    public abstract Result combine(String operator, Result operand) throws CompilerException;
 
     /**
      * Gets the value of this result as a numeric value.

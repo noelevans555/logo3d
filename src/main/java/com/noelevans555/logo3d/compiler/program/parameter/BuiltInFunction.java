@@ -2,7 +2,7 @@ package com.noelevans555.logo3d.compiler.program.parameter;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 import com.noelevans555.logo3d.compiler.state.State;
 
@@ -28,7 +28,7 @@ public class BuiltInFunction implements Parameter {
     private final Parameter parameter;
 
     @Override
-    public EvaluationResult evaluate(final State state) throws CompilerException {
+    public Result evaluate(final State state) throws CompilerException {
 
         double parameterValue = parameter.evaluate(state).getNumeric(functionName);
 

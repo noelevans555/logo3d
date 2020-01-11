@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.noelevans555.logo3d.compiler.program.parameter.result.ColorResult;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.model.LogoColor;
 
 import lombok.AllArgsConstructor;
@@ -22,43 +22,32 @@ import lombok.Getter;
 public class StateFactory {
 
     /**
-     * Named evaluation results for pre-populating in newly created state objects.
+     * Named results for pre-populating in newly created state objects.
      */
     @AllArgsConstructor
     @Getter
-    private static class NamedEvaluationResult {
+    private static class NamedResult {
         private final String name;
-        private final EvaluationResult result;
+        private final Result result;
     }
 
     private static final double ZERO_SEGMENT = 0;
     private static final double HALF_SEGMENT = 128;
     private static final double FULL_SEGMENT = 255;
 
-    private static final List<NamedEvaluationResult> PREDEFINED_RESULTS = ImmutableList.<NamedEvaluationResult>builder()
-            .add(new NamedEvaluationResult("black",
-                    new ColorResult(new LogoColor(ZERO_SEGMENT, ZERO_SEGMENT, ZERO_SEGMENT))))
-            .add(new NamedEvaluationResult("gray",
-                    new ColorResult(new LogoColor(HALF_SEGMENT, HALF_SEGMENT, HALF_SEGMENT))))
-            .add(new NamedEvaluationResult("white",
-                    new ColorResult(new LogoColor(FULL_SEGMENT, FULL_SEGMENT, FULL_SEGMENT))))
-            .add(new NamedEvaluationResult("red",
-                    new ColorResult(new LogoColor(FULL_SEGMENT, ZERO_SEGMENT, ZERO_SEGMENT))))
-            .add(new NamedEvaluationResult("green",
-                    new ColorResult(new LogoColor(ZERO_SEGMENT, FULL_SEGMENT, ZERO_SEGMENT))))
-            .add(new NamedEvaluationResult("blue",
-                    new ColorResult(new LogoColor(ZERO_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
-            .add(new NamedEvaluationResult("yellow",
-                    new ColorResult(new LogoColor(FULL_SEGMENT, FULL_SEGMENT, ZERO_SEGMENT))))
-            .add(new NamedEvaluationResult("cyan",
-                    new ColorResult(new LogoColor(ZERO_SEGMENT, FULL_SEGMENT, FULL_SEGMENT))))
-            .add(new NamedEvaluationResult("magenta",
-                    new ColorResult(new LogoColor(FULL_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
-            .add(new NamedEvaluationResult("orange",
-                    new ColorResult(new LogoColor(FULL_SEGMENT, HALF_SEGMENT, ZERO_SEGMENT))))
-            .add(new NamedEvaluationResult("purple",
-                    new ColorResult(new LogoColor(HALF_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
-            .add(new NamedEvaluationResult("pi", new NumericResult(Math.PI))).build();
+    private static final List<NamedResult> PREDEFINED_RESULTS = ImmutableList.<NamedResult>builder()
+        .add(new NamedResult("black", new ColorResult(new LogoColor(ZERO_SEGMENT, ZERO_SEGMENT, ZERO_SEGMENT))))
+        .add(new NamedResult("gray", new ColorResult(new LogoColor(HALF_SEGMENT, HALF_SEGMENT, HALF_SEGMENT))))
+        .add(new NamedResult("white", new ColorResult(new LogoColor(FULL_SEGMENT, FULL_SEGMENT, FULL_SEGMENT))))
+        .add(new NamedResult("red", new ColorResult(new LogoColor(FULL_SEGMENT, ZERO_SEGMENT, ZERO_SEGMENT))))
+        .add(new NamedResult("green", new ColorResult(new LogoColor(ZERO_SEGMENT, FULL_SEGMENT, ZERO_SEGMENT))))
+        .add(new NamedResult("blue", new ColorResult(new LogoColor(ZERO_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
+        .add(new NamedResult("yellow", new ColorResult(new LogoColor(FULL_SEGMENT, FULL_SEGMENT, ZERO_SEGMENT))))
+        .add(new NamedResult("cyan", new ColorResult(new LogoColor(ZERO_SEGMENT, FULL_SEGMENT, FULL_SEGMENT))))
+        .add(new NamedResult("magenta", new ColorResult(new LogoColor(FULL_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
+        .add(new NamedResult("orange", new ColorResult(new LogoColor(FULL_SEGMENT, HALF_SEGMENT, ZERO_SEGMENT))))
+        .add(new NamedResult("purple", new ColorResult(new LogoColor(HALF_SEGMENT, ZERO_SEGMENT, FULL_SEGMENT))))
+        .add(new NamedResult("pi", new NumericResult(Math.PI))).build();
 
     /**
      * Builds a state object for use during Logo3d compilation.

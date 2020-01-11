@@ -6,7 +6,7 @@ import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.exception.StopException;
 import com.noelevans555.logo3d.compiler.program.Procedure;
 import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 import com.noelevans555.logo3d.compiler.turtle.Turtle;
 
@@ -17,8 +17,7 @@ import lombok.ToString;
 /**
  * Instruction to run the specified procedure's program body after defining new
  * locally-scoped variables. The variables are named by the procedure and
- * populated with the current evaluation results of the instruction's
- * parameters.
+ * populated with the current results of the instruction's parameters.
  *
  * @author Noel Evans (noelevans555@gmail.com)
  */
@@ -36,7 +35,7 @@ public class RunProcedure implements Instruction {
         state.pushStack();
         try {
             for (int i = 0; i < parameters.size(); i++) {
-                EvaluationResult parameterValue = parameters.get(i).evaluate(state);
+                Result parameterValue = parameters.get(i).evaluate(state);
                 state.store(procedure.getParameterNames().get(i), parameterValue, true);
             }
             try {

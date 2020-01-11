@@ -2,7 +2,7 @@ package com.noelevans555.logo3d.compiler.program.parameter;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.ColorResult;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 import com.noelevans555.logo3d.model.LogoColor;
 
@@ -30,7 +30,7 @@ public class ColorDefinition implements Parameter {
     private final Parameter blueParameter;
 
     @Override
-    public EvaluationResult evaluate(final State state) throws CompilerException {
+    public Result evaluate(final State state) throws CompilerException {
         return new ColorResult(new LogoColor(
                 redParameter.evaluate(state).getNumeric(OPERATION),
                 greenParameter.evaluate(state).getNumeric(OPERATION),

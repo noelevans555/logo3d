@@ -1,7 +1,7 @@
 package com.noelevans555.logo3d.compiler.program.parameter;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.state.State;
 
 /**
@@ -20,6 +20,6 @@ public interface Parameter {
      * @return The value of the parameter in the specified state.
      * @throws CompilerException If the parameter cannot be evaluated.
      */
-    EvaluationResult evaluate(State state) throws CompilerException;
+    Result evaluate(State state) throws CompilerException;
 
 }

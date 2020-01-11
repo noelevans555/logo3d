@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Represents the color evaluation result of a Logo3d parameter. Can be combined
+ * Represents the color result of evaluating a Logo3d parameter. Can be combined
  * with other color results to determine the result of larger expressions.
  *
  * @author Noel Evans (noelevans555@gmail.com)
@@ -21,7 +21,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class ColorResult extends EvaluationResult {
+public class ColorResult extends Result {
 
     private final LogoColor color;
 
@@ -32,7 +32,7 @@ public class ColorResult extends EvaluationResult {
     }
 
     @Override
-    public ColorResult combine(final String operator, final EvaluationResult operand) throws CompilerException {
+    public ColorResult combine(final String operator, final Result operand) throws CompilerException {
         if (operand instanceof NumericResult) {
             throw new SemanticException(SemanticException.CANNOT_COMBINE_COLOR_AND_NUMERIC, operator);
         }

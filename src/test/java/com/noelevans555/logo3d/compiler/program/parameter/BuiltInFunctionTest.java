@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.exception.SemanticException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.ColorResult;
-import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -86,7 +86,7 @@ public class BuiltInFunctionTest extends AbstractParameterTest {
         assertExpectedResult(new NumericResult(1.0), false, "pow", 24.90072851173197);
     }
 
-    private void assertExpectedResult(final EvaluationResult parameterResponse, final boolean isNegated,
+    private void assertExpectedResult(final Result parameterResponse, final boolean isNegated,
             final String functionName, final double expectedValue) throws Exception {
 
         when(parameter.evaluate(state)).thenReturn(parameterResponse);
