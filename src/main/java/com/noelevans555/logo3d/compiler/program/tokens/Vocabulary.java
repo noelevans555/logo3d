@@ -41,8 +41,9 @@ public final class Vocabulary {
 
     public static final Set<String> RESERVED_WORDS = ImmutableSet.of("acos", "asin", "atan", "cos", "dn", "down", "fd",
             "forward", "goto", "if", "left", "local", "lt", "make", "mark", "pd", "pendown", "penup", "pick", "pu",
-            "random", "randomcolor", "rc", "repeat", "right", "rl", "rollleft", "rollright", "rr", "rt", "sc",
-            "setcolor", "sin", "sqrt", "stop", "tan", "to", "turndown", "turnleft", "turnright", "turnup", "up");
+            "random", "randomcolor", "rc", "repeat", "reverse", "right", "rl", "rollleft", "rollright", "rr", "rt",
+            "rv", "sc", "setcolor", "sin", "sqrt", "stop", "tan", "to", "turndown", "turnleft", "turnright", "turnup",
+            "up");
 
     /**
      * Private Constructor to prevent instantiation.
