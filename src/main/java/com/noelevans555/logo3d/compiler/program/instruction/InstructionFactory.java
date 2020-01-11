@@ -67,11 +67,13 @@ public class InstructionFactory {
                 .put("dn", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
                 .put("fd", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
                 .put("forward", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
+                .put("goto", new InstructionDefinition(Mark.class, AssemblyStep.NAME))
                 .put("if", new InstructionDefinition(Conditional.class, AssemblyStep.PARAMETER, AssemblyStep.COMPARATOR,
                         AssemblyStep.PARAMETER, AssemblyStep.PROGRAM, AssemblyStep.OPTIONAL_ELSE, AssemblyStep.PROGRAM))
                 .put("lt", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
                 .put("make", new InstructionDefinition(Make.class, AssemblyStep.OPTIONAL_LOCAL, AssemblyStep.NAME,
                         AssemblyStep.EQUALS, AssemblyStep.PARAMETER))
+                .put("mark", new InstructionDefinition(Mark.class, AssemblyStep.OPTIONAL_LOCAL, AssemblyStep.NAME))
                 .put("pd", new InstructionDefinition(PenDown.class))
                 .put("pendown", new InstructionDefinition(PenDown.class))
                 .put("penup", new InstructionDefinition(PenUp.class))
