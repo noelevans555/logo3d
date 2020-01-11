@@ -14,30 +14,30 @@ public class StackFrameTest {
     private static final EvaluationResult TEST_RESULT = new NumericResult(4.3);
     private static final EvaluationResult ALT_RESULT = new NumericResult(0.1);
 
-    private StackFrame stackFrame = new StackFrame();
+    private StackFrame<EvaluationResult> stackFrame = new StackFrame<>();
 
     @Test
-    public void resolve_whenResultStored_expectedResultIsReturned() {
-        stackFrame.storeResult("myVar", TEST_RESULT);
-        assertEquals(TEST_RESULT, stackFrame.resolve("MYVAR"));
+    public void retrieve_whenResultStored_expectedResultIsReturned() {
+        stackFrame.store("myVar", TEST_RESULT);
+        assertEquals(TEST_RESULT, stackFrame.retrieve("MYVAR"));
     }
 
     @Test
-    public void resolve_whenResultOverwritten_overwrittenResultIsReturned() {
-        stackFrame.storeResult("myVar", TEST_RESULT);
-        stackFrame.storeResult("MyVaR", ALT_RESULT);
-        assertEquals(ALT_RESULT, stackFrame.resolve("myvar"));
+    public void retrieve_whenResultOverwritten_overwrittenResultIsReturned() {
+        stackFrame.store("myVar", TEST_RESULT);
+        stackFrame.store("MyVaR", ALT_RESULT);
+        assertEquals(ALT_RESULT, stackFrame.retrieve("myvar"));
     }
 
     @Test
     public void containsName_whenResultStored_returnsTrue() {
-        stackFrame.storeResult("my_Var", TEST_RESULT);
+        stackFrame.store("my_Var", TEST_RESULT);
         assertTrue(stackFrame.containsName("my_var"));
     }
 
     @Test
     public void containsName_whenResultNotStored_returnsFalse() {
-        stackFrame.storeResult("my__Var", TEST_RESULT);
+        stackFrame.store("my__Var", TEST_RESULT);
         assertFalse(stackFrame.containsName("my_var"));
     }
 

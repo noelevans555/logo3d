@@ -29,7 +29,7 @@ public class Make implements Instruction {
     @Override
     public void run(final State state, final Turtle turtle) throws CompilerException {
         EvaluationResult parameterValue = parameter.evaluate(state);
-        state.storeResult(name, parameterValue, isLocalScope);
+        state.store(name, parameterValue, isLocalScope);
     }
 
 }

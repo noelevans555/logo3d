@@ -24,7 +24,7 @@ public class VariableReference implements Parameter {
 
     @Override
     public EvaluationResult evaluate(final State state) throws EntityReferenceException {
-        return state.resolve(variableName).conditionallyNegate(isNegated);
+        return state.retrieveResult(variableName).conditionallyNegate(isNegated);
     }
 
 }

@@ -6,22 +6,25 @@ import java.util.List;
 import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
+import com.noelevans555.logo3d.compiler.turtle.Pose;
 
 /**
- * Tracks the current value of variable parameters during execution of a Logo3d
- * program. All processing is case-insensitive, i.e. names with only case
- * differences will be treated as overwrites, and the value can be retrieved
- * with any name which features only case differences.
+ * Tracks the current value of named variables and marked turtle poses during
+ * execution of a Logo3d program. Variables and poses are stored in independent
+ * namespaces while all processing is case-insensitive, i.e. names with only
+ * case differences will be treated as overwrites, and the value can be
+ * retrieved with any name which features only case differences.
  *
  * @author Noel Evans (noelevans555@gmail.com)
  */
 public class State {
 
-    private final List<StackFrame> stackFrames = new ArrayList<>();
+    // Results and poses are stored in separate frames for independent namespaces.
+    private final List<StackFrame<EvaluationResult>> resultFrames = new ArrayList<>();
+    private final List<StackFrame<Pose>> poseFrames = new ArrayList<>();
 
     /**
-     * Constructor. Initializes a new state with a single stack frame and no stored
-     * evaluation results.
+     * Constructor. Initializes a new, empty state with a single stack frame.
      */
     State() {
         pushStack();
@@ -31,7 +34,8 @@ public class State {
      * Adds a new stack frame to the evaluation stack.
      */
     public void pushStack() {
-        stackFrames.add(new StackFrame());
+        resultFrames.add(new StackFrame<>());
+        poseFrames.add(new StackFrame<>());
     }
 
     /**
@@ -40,10 +44,11 @@ public class State {
      * @throws InternalException If no removable stack frames are present.
      */
     public void popStack() throws InternalException {
-        if (stackFrames.size() == 1) {
+        if (resultFrames.size() == 1) {
             throw new InternalException("No remaining stack frames to pop");
         }
-        stackFrames.remove(stackFrames.size() - 1);
+        resultFrames.remove(resultFrames.size() - 1);
+        poseFrames.remove(poseFrames.size() - 1);
     }
 
     /**
@@ -57,37 +62,83 @@ public class State {
      *        any value stored with matching name at a previous stack frame will be
      *        overwritten).
      */
-    public void storeResult(final String name, final EvaluationResult result, final boolean isLocalScope) {
-        getStorageFrame(name, isLocalScope).storeResult(name, result);
+    public void store(final String name, final EvaluationResult result, final boolean isLocalScope) {
+        getStorageFrame(resultFrames, name, isLocalScope).store(name, result);
+    }
+
+    /**
+     * Stores a turtle pose in the program state for later retrieval using the
+     * specified name.
+     *
+     * @param name The name by which the pose can be retrieved.
+     * @param pose The turtle pose to store.
+     * @param isLocalScope Whether the pose should be stored independently of poses
+     *        stored with the same name at previous stack frames (otherwise any pose
+     *        stored with matching name at a previous stack frame will be
+     *        overwritten).
+     */
+    public void store(final String name, final Pose pose, final boolean isLocalScope) {
+        getStorageFrame(poseFrames, name, isLocalScope).store(name, pose);
     }
 
     /**
      * Retrieves an evaluation result with the specified name, searching stack
-     * frames starting from the most recently added.
+     * frames in order of the most recently added.
      *
      * @param name The name of the evaluation result to retrieve.
      * @return The value of the named evaluation result.
      * @throws EntityReferenceException If no evaluation result is stored with the
      *         specified name.
      */
-    public EvaluationResult resolve(final String name) throws EntityReferenceException {
-        for (int i = stackFrames.size() - 1; i >= 0; i--) {
-            if (stackFrames.get(i).containsName(name)) {
-                return stackFrames.get(i).resolve(name);
-            }
-        }
-        throw new EntityReferenceException(EntityReferenceException.UNDEFINED_VARIABLE, name);
+    public EvaluationResult retrieveResult(final String name) throws EntityReferenceException {
+        return getRetrievalFrame(resultFrames, name, EntityReferenceException.UNDEFINED_VARIABLE).retrieve(name);
     }
 
     /**
-     * Identifies the storage frame in which a named result should be stored.
+     * Retrieves a turtle pose with the specified name, searching stack frames in
+     * order of the most recently added.
      *
-     * @param name The name by which the evaluation result can be retrieved.
-     * @param isLocalScope Whether the value should be stored independently of
-     *        values stored with the same name at previous stack frames.
-     * @return The storage frame in which the named result should be stored.
+     * @param name The name of the pose to retrieve.
+     * @return The value of the named pose.
+     * @throws EntityReferenceException If no pose is stored with the specified
+     *         name.
      */
-    private StackFrame getStorageFrame(final String name, final boolean isLocalScope) {
+    public Pose retrievePose(final String name) throws EntityReferenceException {
+        return getRetrievalFrame(poseFrames, name, EntityReferenceException.UNMARKED_POSITION).retrieve(name);
+    }
+
+    /**
+     * Identifies the containing frame for item retrieval.
+     *
+     * @param <T> The type of values stored in the candidate frames.
+     * @param stackFrames Candidates for frame selection.
+     * @param name The name of the item being retrieved.
+     * @param exceptionMessage Message to use if the named item is not found.
+     * @return The storage frame in which the named item is contained.
+     * @throws EntityReferenceException If the named item is not found.
+     */
+    private <T> StackFrame<T> getRetrievalFrame(final List<StackFrame<T>> stackFrames, final String name,
+            final String exceptionMessage) throws EntityReferenceException {
+        for (int i = stackFrames.size() - 1; i >= 0; i--) {
+            if (stackFrames.get(i).containsName(name)) {
+                return stackFrames.get(i);
+            }
+        }
+        throw new EntityReferenceException(exceptionMessage, name);
+    }
+
+    /**
+     * Identifies the appropriate frame for item storage.
+     *
+     * @param <T> The type of values stored in the candidate frames.
+     * @param stackFrames Candidates for frame selection.
+     * @param name The name by which the item can be retrieved.
+     * @param isLocalScope Whether the item should be stored independently of items
+     *        stored with the same name at previous stack frames.
+     * @return The storage frame in which the named item should be stored.
+     */
+    private <T> StackFrame<T> getStorageFrame(final List<StackFrame<T>> stackFrames, final String name,
+            final boolean isLocalScope) {
         if (isLocalScope) {
             return stackFrames.get(stackFrames.size() - 1);
         }

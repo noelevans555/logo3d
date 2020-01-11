@@ -16,7 +16,7 @@ public class VariableReferenceTest extends AbstractParameterTest {
 
     @Before
     public void setup() throws Exception {
-        when(state.resolve("myVariable")).thenReturn(new NumericResult(4.1));
+        when(state.retrieveResult("myVariable")).thenReturn(new NumericResult(4.1));
     }
 
     @Test

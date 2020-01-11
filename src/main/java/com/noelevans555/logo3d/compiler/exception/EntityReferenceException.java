@@ -14,6 +14,7 @@ public class EntityReferenceException extends SemanticException {
 
     public static final String PROCEDURE_ALREADY_EXISTS = "Procedure already exists";
     public static final String UNDEFINED_VARIABLE = "Undefined variable";
+    public static final String UNMARKED_POSITION = "Unmarked position";
 
     private static final long serialVersionUID = 1L;
 

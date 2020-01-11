@@ -28,14 +28,14 @@ public class MakeTest extends AbstractInstructionTest {
     public void run_withLocalScope_thenStoresExpectedValueInProgramState() throws Exception {
         Make make = new Make(true, VARIABLE_NAME, parameter);
         make.run(state, turtle);
-        verify(state).storeResult(VARIABLE_NAME, TEST_COLOR_RESULT, true);
+        verify(state).store(VARIABLE_NAME, TEST_COLOR_RESULT, true);
     }
 
     @Test
     public void run_withGlobalScope_thenStoresExpectedValueInProgramState() throws Exception {
         Make make = new Make(false, VARIABLE_NAME, parameter);
         make.run(state, turtle);
-        verify(state).storeResult(VARIABLE_NAME, TEST_COLOR_RESULT, false);
+        verify(state).store(VARIABLE_NAME, TEST_COLOR_RESULT, false);
     }
 
 }

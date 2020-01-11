@@ -75,8 +75,8 @@ public class RunProcedureTest extends AbstractInstructionTest {
         InOrder inOrder = inOrder(state);
         inOrder.verify(state).pushStack();
         if (assertValuesAreStored) {
-            inOrder.verify(state).storeResult(PARAMETER_NAME_ONE, TEST_NUMERIC_RESULT, true);
-            inOrder.verify(state).storeResult(PARAMETER_NAME_TWO, TEST_COLOR_RESULT, true);
+            inOrder.verify(state).store(PARAMETER_NAME_ONE, TEST_NUMERIC_RESULT, true);
+            inOrder.verify(state).store(PARAMETER_NAME_TWO, TEST_COLOR_RESULT, true);
         }
         inOrder.verify(state).popStack();
     }

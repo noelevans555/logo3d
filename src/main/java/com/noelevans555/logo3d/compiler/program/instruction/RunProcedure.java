@@ -37,7 +37,7 @@ public class RunProcedure implements Instruction {
         try {
             for (int i = 0; i < parameters.size(); i++) {
                 EvaluationResult parameterValue = parameters.get(i).evaluate(state);
-                state.storeResult(procedure.getParameterNames().get(i), parameterValue, true);
+                state.store(procedure.getParameterNames().get(i), parameterValue, true);
             }
             try {
                 procedure.getProcedureBody().run(state, turtle);

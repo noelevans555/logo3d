@@ -68,7 +68,7 @@ public class StateFactory {
      */
     public State buildState() {
         State state = new State();
-        PREDEFINED_RESULTS.stream().forEach(e -> state.storeResult(e.getName(), e.getResult(), false));
+        PREDEFINED_RESULTS.stream().forEach(e -> state.store(e.getName(), e.getResult(), false));
         return state;
     }
 

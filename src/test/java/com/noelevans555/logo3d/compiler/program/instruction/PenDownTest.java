@@ -12,7 +12,7 @@ public class PenDownTest extends AbstractInstructionTest {
     private PenDown penDown = new PenDown();
 
     @Test
-    public void runCommand_thenInstructsTurtleToStopDrawing() throws Exception {
+    public void runCommand_thenInstructsTurtleToStartDrawing() throws Exception {
         penDown.run(state, turtle);
         verify(turtle).setDrawing(true);
     }

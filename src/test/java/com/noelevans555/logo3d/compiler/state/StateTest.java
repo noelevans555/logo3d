@@ -1,6 +1,7 @@
 package com.noelevans555.logo3d.compiler.state;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
@@ -8,10 +9,13 @@ import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.EvaluationResult;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
+import com.noelevans555.logo3d.compiler.turtle.Pose;
+import com.noelevans555.logo3d.model.LogoPoint;
 
 public class StateTest {
 
     private static final String TEST_NAME = "myVar";
+    private static final Pose TEST_POSE = new Pose(new LogoPoint(0, 0, 0), new double[4][4]);
     private static final EvaluationResult TEST_RESULT = new NumericResult(12.9);
     private static final EvaluationResult ALT_RESULT = new NumericResult(5.2);
 
@@ -38,47 +42,53 @@ public class StateTest {
     }
 
     @Test
-    public void resolve_whenResultStoredLocally_returnsExpectedResult() throws Exception {
-        state.storeResult(TEST_NAME, TEST_RESULT, true);
-        assertEquals(TEST_RESULT, state.resolve(TEST_NAME));
+    public void retrievePose_whenPoseStoredLocally_returnsExpectedPose() throws Exception {
+        state.store(TEST_NAME, TEST_POSE, true);
+        assertSame(TEST_POSE, state.retrievePose(TEST_NAME));
     }
 
     @Test
-    public void resolve_whenResultStoredGlobally_returnsExpectedResult() throws Exception {
-        state.storeResult(TEST_NAME, TEST_RESULT, false);
-        assertEquals(TEST_RESULT, state.resolve(TEST_NAME));
+    public void retrieveResult_whenResultStoredLocally_returnsExpectedResult() throws Exception {
+        state.store(TEST_NAME, TEST_RESULT, true);
+        assertEquals(TEST_RESULT, state.retrieveResult(TEST_NAME));
     }
 
     @Test
-    public void resolve_whenAlternativeResultStoredLocally_bothResultsAreRetained() throws Exception {
-        state.storeResult(TEST_NAME, TEST_RESULT, true);
+    public void retrieveResult_whenResultStoredGlobally_returnsExpectedResult() throws Exception {
+        state.store(TEST_NAME, TEST_RESULT, false);
+        assertEquals(TEST_RESULT, state.retrieveResult(TEST_NAME));
+    }
+
+    @Test
+    public void retrieveResult_whenAlternativeResultStoredLocally_bothResultsAreRetained() throws Exception {
+        state.store(TEST_NAME, TEST_RESULT, true);
         state.pushStack();
-        state.storeResult(TEST_NAME, ALT_RESULT, true);
+        state.store(TEST_NAME, ALT_RESULT, true);
         // assert alternative value is set in local scope.
-        assertEquals(ALT_RESULT, state.resolve(TEST_NAME));
+        assertEquals(ALT_RESULT, state.retrieveResult(TEST_NAME));
         // assert original value remains in outer scope.
         state.popStack();
-        assertEquals(TEST_RESULT, state.resolve(TEST_NAME));
+        assertEquals(TEST_RESULT, state.retrieveResult(TEST_NAME));
     }
 
     @Test
-    public void resolve_whenAlternativeResultStoredGlobally_originalResultIsOverwritten() throws Exception {
-        state.storeResult(TEST_NAME, TEST_RESULT, false);
+    public void retrieveResult_whenAlternativeResultStoredGlobally_originalResultIsOverwritten() throws Exception {
+        state.store(TEST_NAME, TEST_RESULT, false);
         state.pushStack();
-        state.storeResult(TEST_NAME, ALT_RESULT, false);
+        state.store(TEST_NAME, ALT_RESULT, false);
         // assert alternative value is set in local scope.
-        assertEquals(ALT_RESULT, state.resolve(TEST_NAME));
+        assertEquals(ALT_RESULT, state.retrieveResult(TEST_NAME));
         // assert alternative value is also set in outer scope.
         state.popStack();
-        assertEquals(ALT_RESULT, state.resolve(TEST_NAME));
+        assertEquals(ALT_RESULT, state.retrieveResult(TEST_NAME));
     }
 
     @Test(expected = EntityReferenceException.class)
-    public void resolve_whenResultOnlyStoredInDeeperScope_throwsBadEntityException() throws Exception {
+    public void retrieveResult_whenResultOnlyStoredInDeeperScope_throwsEntityReferenceException() throws Exception {
         state.pushStack();
-        state.storeResult(TEST_NAME, TEST_RESULT, false);
+        state.store(TEST_NAME, TEST_RESULT, false);
         state.popStack();
-        state.resolve(TEST_NAME);
+        state.retrieveResult(TEST_NAME);
     }
 
 }

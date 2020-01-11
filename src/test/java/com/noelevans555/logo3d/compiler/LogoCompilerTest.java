@@ -71,7 +71,7 @@ public class LogoCompilerTest {
     }
 
     @Test
-    public void compileProgram_whenStoppedWhenRunning_returnsTurtleLines() throws Exception {
+    public void compileProgram_whenStoppedFromRunning_returnsTurtleLines() throws Exception {
         doThrow(new StopException()).when(program).run(state, turtle);
         assertEquals(TURTLE_OUTPUT, logoCompiler.compileProgram(TEST_PROGRAM));
         verify(program).run(state, turtle);
