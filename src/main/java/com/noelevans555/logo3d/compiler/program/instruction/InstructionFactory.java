@@ -64,31 +64,32 @@ public class InstructionFactory {
 
     private static final Map<String, InstructionDefinition> INSTRUCTION_DEFINITIONS =
             new ImmutableMap.Builder<String, InstructionDefinition>()
-                .put("forward", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
-                .put("fd", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
-                .put("turnleft", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
-                .put("lt", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
-                .put("turnright", new InstructionDefinition(TurnRight.class, AssemblyStep.PARAMETER))
-                .put("rt", new InstructionDefinition(TurnRight.class, AssemblyStep.PARAMETER))
-                .put("turnup", new InstructionDefinition(TurnUp.class, AssemblyStep.PARAMETER))
-                .put("up", new InstructionDefinition(TurnUp.class, AssemblyStep.PARAMETER))
-                .put("turndown", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
                 .put("dn", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
-                .put("rollleft", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
-                .put("rl", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
-                .put("rollright", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
-                .put("rr", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
+                .put("fd", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
+                .put("forward", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
+                .put("if", new InstructionDefinition(Conditional.class, AssemblyStep.PARAMETER, AssemblyStep.COMPARATOR,
+                        AssemblyStep.PARAMETER, AssemblyStep.PROGRAM, AssemblyStep.OPTIONAL_ELSE, AssemblyStep.PROGRAM))
+                .put("lt", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
+                .put("make", new InstructionDefinition(Make.class, AssemblyStep.OPTIONAL_LOCAL, AssemblyStep.NAME,
+                        AssemblyStep.EQUALS, AssemblyStep.PARAMETER))
+                .put("pd", new InstructionDefinition(PenDown.class))
+                .put("pendown", new InstructionDefinition(PenDown.class))
                 .put("penup", new InstructionDefinition(PenUp.class))
                 .put("pu", new InstructionDefinition(PenUp.class))
-                .put("pendown", new InstructionDefinition(PenDown.class))
-                .put("pd", new InstructionDefinition(PenDown.class))
-                .put("stop", new InstructionDefinition(Stop.class))
-                .put("sc", new InstructionDefinition(SetColor.class, AssemblyStep.PARAMETER))
                 .put("repeat", new InstructionDefinition(Repeat.class, AssemblyStep.PARAMETER, AssemblyStep.PROGRAM))
-                .put("if", new InstructionDefinition(Conditional.class, AssemblyStep.PARAMETER, AssemblyStep.COMPARATOR,
-                    AssemblyStep.PARAMETER, AssemblyStep.PROGRAM, AssemblyStep.OPTIONAL_ELSE, AssemblyStep.PROGRAM))
-                .put("make", new InstructionDefinition(Make.class, AssemblyStep.OPTIONAL_LOCAL, AssemblyStep.NAME,
-                    AssemblyStep.EQUALS, AssemblyStep.PARAMETER))
+                .put("rl", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
+                .put("rollleft", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
+                .put("rollright", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
+                .put("rr", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
+                .put("rt", new InstructionDefinition(TurnRight.class, AssemblyStep.PARAMETER))
+                .put("sc", new InstructionDefinition(SetColor.class, AssemblyStep.PARAMETER))
+                .put("setcolor", new InstructionDefinition(SetColor.class, AssemblyStep.PARAMETER))
+                .put("stop", new InstructionDefinition(Stop.class))
+                .put("turndown", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
+                .put("turnleft", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
+                .put("turnright", new InstructionDefinition(TurnRight.class, AssemblyStep.PARAMETER))
+                .put("turnup", new InstructionDefinition(TurnUp.class, AssemblyStep.PARAMETER))
+                .put("up", new InstructionDefinition(TurnUp.class, AssemblyStep.PARAMETER))
                 .build();
 
     private static final InstructionDefinition DEFAULT_INSTRUCTION_DEFINITION = new InstructionDefinition(
