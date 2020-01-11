@@ -65,11 +65,13 @@ public class InstructionFactory {
     private static final Map<String, InstructionDefinition> INSTRUCTION_DEFINITIONS =
             new ImmutableMap.Builder<String, InstructionDefinition>()
                 .put("dn", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
+                .put("down", new InstructionDefinition(TurnDown.class, AssemblyStep.PARAMETER))
                 .put("fd", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
                 .put("forward", new InstructionDefinition(MoveForward.class, AssemblyStep.PARAMETER))
                 .put("goto", new InstructionDefinition(Mark.class, AssemblyStep.NAME))
                 .put("if", new InstructionDefinition(Conditional.class, AssemblyStep.PARAMETER, AssemblyStep.COMPARATOR,
                         AssemblyStep.PARAMETER, AssemblyStep.PROGRAM, AssemblyStep.OPTIONAL_ELSE, AssemblyStep.PROGRAM))
+                .put("left", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
                 .put("lt", new InstructionDefinition(TurnLeft.class, AssemblyStep.PARAMETER))
                 .put("make", new InstructionDefinition(Make.class, AssemblyStep.OPTIONAL_LOCAL, AssemblyStep.NAME,
                         AssemblyStep.EQUALS, AssemblyStep.PARAMETER))
@@ -79,6 +81,7 @@ public class InstructionFactory {
                 .put("penup", new InstructionDefinition(PenUp.class))
                 .put("pu", new InstructionDefinition(PenUp.class))
                 .put("repeat", new InstructionDefinition(Repeat.class, AssemblyStep.PARAMETER, AssemblyStep.PROGRAM))
+                .put("right", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
                 .put("rl", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
                 .put("rollleft", new InstructionDefinition(RollLeft.class, AssemblyStep.PARAMETER))
                 .put("rollright", new InstructionDefinition(RollRight.class, AssemblyStep.PARAMETER))
