@@ -15,4 +15,9 @@ public class LogoPoint {
     private final double y;
     private final double z;
 
+    @Override
+    public String toString() {
+        return String.format("LogoPoint(x=%.2f, y=%.2f, z=%.2f)", x, y, z);
+    }
+
 }

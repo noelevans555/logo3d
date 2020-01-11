@@ -2,6 +2,8 @@ package com.noelevans555.logo3d.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Color;
+
 import org.junit.Test;
 
 public class LogoColorTest {
@@ -30,6 +32,15 @@ public class LogoColorTest {
         assertEquals(254.99999, logoColor.getRed(), DELTA);
         assertEquals(73.4241, logoColor.getGreen(), DELTA);
         assertEquals(0.0001, logoColor.getBlue(), DELTA);
+    }
+
+    @Test
+    public void toAwtColor_returnsExpectedColor() {
+        LogoColor logoColor = new LogoColor(-0.31, 65.22, 256.19);
+        Color color = logoColor.toAwtColor();
+        assertEquals(0, color.getRed());
+        assertEquals(65, color.getGreen());
+        assertEquals(255, color.getBlue());
     }
 
 }

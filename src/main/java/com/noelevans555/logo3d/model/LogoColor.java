@@ -1,5 +1,7 @@
 package com.noelevans555.logo3d.model;
 
+import java.awt.Color;
+
 import lombok.Data;
 
 /**
@@ -32,6 +34,18 @@ public class LogoColor {
         this.red = Math.min(MAX_COMPONENT_VALUE, Math.max(0, red));
         this.green = Math.min(MAX_COMPONENT_VALUE, Math.max(0, green));
         this.blue = Math.min(MAX_COMPONENT_VALUE, Math.max(0, blue));
+    }
+
+    /**
+     * Returns the java.awt.Color corresponding to this color.
+     *
+     * @return The corresponding java.awt.Color.
+     */
+    public Color toAwtColor() {
+        return new Color(
+                (float) (red / MAX_COMPONENT_VALUE),
+                (float) (green / MAX_COMPONENT_VALUE),
+                (float) (blue / MAX_COMPONENT_VALUE));
     }
 
 }
