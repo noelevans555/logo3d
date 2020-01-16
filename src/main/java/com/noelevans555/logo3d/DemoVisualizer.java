@@ -21,8 +21,10 @@ import lombok.RequiredArgsConstructor;
 /**
  * A simple visualizer to show the output of the Logo3d compiler. Three fixed
  * images are produced corresponding to parallel projections of the output lines
- * on the XY, XZ & YZ axis pairs. The axis limits are fixed and so larger images
- * will not be shown in full.
+ * on the XY, ZY & XZ axis pairs. The axis limits are fixed and so larger images
+ * will not be shown in full, and the lines are drawn in the order traversed by
+ * the program, i.e. in the projection's perspective, near lines may be occluded
+ * by those which are further away.
  *
  * @author Noel Evans (noelevans555@gmail.com)
  */
@@ -46,8 +48,8 @@ class DemoVisualizer extends JFrame {
     @Getter
     private enum Projection {
         XY(e -> e.getX(), e -> e.getY()),
-        XZ(e -> e.getX(), e -> e.getZ()),
-        YZ(e -> e.getY(), e -> e.getZ());
+        ZY(e -> e.getZ(), e -> e.getY()),
+        XZ(e -> e.getX(), e -> e.getZ());
 
         private final Function<LogoPoint, Double> horizontalAxis;
         private final Function<LogoPoint, Double> verticalAxis;
