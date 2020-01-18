@@ -62,7 +62,7 @@ public class LogoCompilerTest {
         when(tokenizer.tokenize(TEST_PROGRAM)).thenReturn(tokenReader);
         when(programFactory.buildProgram(tokenReader, runtimeLimits)).thenReturn(program);
         when(stateFactory.buildState(runtimeLimits)).thenReturn(state);
-        when(turtleFactory.buildTurtle()).thenReturn(turtle);
+        when(turtleFactory.buildTurtle(runtimeLimits)).thenReturn(turtle);
         when(turtle.getLogoLines()).thenReturn(TURTLE_OUTPUT);
     }
 

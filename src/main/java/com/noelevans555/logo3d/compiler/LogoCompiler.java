@@ -57,7 +57,7 @@ public class LogoCompiler {
         TokenReader tokenReader = tokenizer.tokenize(program);
         Program compiledProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         State state = stateFactory.buildState(runtimeLimits);
-        Turtle turtle = turtleFactory.buildTurtle();
+        Turtle turtle = turtleFactory.buildTurtle(runtimeLimits);
         try {
             compiledProgram.run(state, turtle);
         } catch (StopException stop) {

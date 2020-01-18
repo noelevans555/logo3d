@@ -3,6 +3,7 @@ package com.noelevans555.logo3d.compiler.turtle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.noelevans555.logo3d.compiler.exception.RuntimeLimitException;
 import com.noelevans555.logo3d.model.LogoColor;
 import com.noelevans555.logo3d.model.LogoLine;
 import com.noelevans555.logo3d.model.LogoPoint;
@@ -24,6 +25,7 @@ public class Turtle {
     private static final LogoColor WHITE = new LogoColor(255, 255, 255);
 
     private final Orientation orientation;
+    private final int lineLimit;
 
     private LogoPoint location = ORIGIN;
     private LogoColor color = WHITE;
@@ -137,8 +139,10 @@ public class Turtle {
      * Instructs the turtle to move forward by the specified amount.
      *
      * @param distance The distance to travel forward.
+     * @throws RuntimeLimitException If the maximum number of drawn lines has been
+     *         exceeded.
      */
-    public void moveForward(final double distance) {
+    public void moveForward(final double distance) throws RuntimeLimitException {
         double[] unitStep = orientation.getUnitStep();
         LogoPoint startLocation = location;
         location = new LogoPoint(
@@ -146,6 +150,9 @@ public class Turtle {
                 startLocation.getY() + unitStep[1] * distance,
                 startLocation.getZ() + unitStep[2] * distance);
         if (isDrawing) {
+            if (drawnLines.size() == lineLimit) {
+                throw new RuntimeLimitException(RuntimeLimitException.MAXIMUM_LOGO_LINES_EXCEEDED);
+            }
             drawnLines.add(new LogoLine(startLocation, location, color));
         }
     }

@@ -9,11 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
+import com.noelevans555.logo3d.compiler.exception.RuntimeLimitException;
 import com.noelevans555.logo3d.model.LogoColor;
 import com.noelevans555.logo3d.model.LogoLine;
 import com.noelevans555.logo3d.model.LogoPoint;
@@ -38,16 +38,18 @@ public class TurtleTest {
         { 5.2, 1.2, 0.0, 9.5 },
         { 7.8, 4.4, 0.9, 3.4 }};
 
+    private static final int TEST_LINE_LIMIT = 100;
+
     @Mock
     private Orientation orientation;
 
-    @InjectMocks
     private Turtle turtle;
 
     @Before
     public void setup() {
         when(orientation.getUnitStep()).thenReturn(TEST_UNIT_STEP);
         when(orientation.getMatrix()).thenReturn(TEST_MATRIX);
+        turtle = new Turtle(orientation, TEST_LINE_LIMIT);
     }
 
     @Test
@@ -87,21 +89,35 @@ public class TurtleTest {
     }
 
     @Test
-    public void moveForward_whenDrawingWithColor_drawsLineWithExpectedColor() {
+    public void moveForward_whenDrawingWithColor_drawsLineWithExpectedColor() throws Exception {
         turtle.setColor(EXPECTED_LINE_COLOR);
         turtle.moveForward(10);
         assertEquals(ImmutableList.of(EXPECTED_LINE), turtle.getLogoLines());
     }
 
     @Test
-    public void moveForward_whenNotDrawing_drawsNoLine() {
+    public void moveForward_whenNotDrawing_drawsNoLine() throws Exception {
         turtle.setDrawing(false);
         turtle.moveForward(10);
         assertTrue(turtle.getLogoLines().isEmpty());
     }
 
     @Test
-    public void getPose_afterMoving_returnsExpectedPose() {
+    public void moveForward_whenLineLimitNotReached_throwsNoException() throws Exception {
+        for (int i = 0; i < TEST_LINE_LIMIT; i++) {
+            turtle.moveForward(10);
+        }
+    }
+
+    @Test(expected = RuntimeLimitException.class)
+    public void moveForward_whenLineLimitReached_throwsRuntimeLimitException() throws Exception {
+        for (int i = 0; i < TEST_LINE_LIMIT + 1; i++) {
+            turtle.moveForward(10);
+        }
+    }
+
+    @Test
+    public void getPose_afterMoving_returnsExpectedPose() throws Exception {
         turtle.moveForward(10);
         Pose outputPose = turtle.getPose();
         assertEquals(EXPECTED_LINE_END, outputPose.getLocation());
@@ -109,7 +125,7 @@ public class TurtleTest {
     }
 
     @Test
-    public void setPose_updatesOrientationAndDrawsLineFromExpectedLocation() {
+    public void setPose_updatesOrientationAndDrawsLineFromExpectedLocation() throws Exception {
         Pose pose = new Pose(EXPECTED_LINE_END, TEST_MATRIX);
         turtle.setPose(pose);
         ArgumentCaptor<?> matrixCaptor = ArgumentCaptor.forClass(Object.class);

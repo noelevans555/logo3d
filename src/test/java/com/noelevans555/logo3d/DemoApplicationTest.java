@@ -91,6 +91,11 @@ public class DemoApplicationTest {
         demoApplication.compileAndRunProgram("to proc [ proc ] proc");
     }
 
+    @Test(expected = RuntimeLimitException.class)
+    public void compileAndRunProgram_withOversizedLines_throwsLimitException() throws Exception {
+        demoApplication.compileAndRunProgram("repeat 1000001 [ forward 1 ]");
+    }
+
     private double getDistanceBetween(final LogoPoint start, final LogoPoint end) {
         return Math.sqrt(Math.pow(start.getX() - end.getX(), 2) + Math.pow(start.getY() - end.getY(), 2)
                 + Math.pow(start.getZ() - end.getZ(), 2));
