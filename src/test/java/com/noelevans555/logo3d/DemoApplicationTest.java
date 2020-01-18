@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.noelevans555.logo3d.compiler.exception.RuntimeLimitException;
 import com.noelevans555.logo3d.model.LogoColor;
 import com.noelevans555.logo3d.model.LogoLine;
 import com.noelevans555.logo3d.model.LogoPoint;
@@ -68,6 +69,11 @@ public class DemoApplicationTest {
         assertEquals(37446.6636, totalLineLength, DELTA);
         assertEquals(113.22792, averageDistanceFromOrigin, DELTA);
         assertEquals(13, colorsUsed.size());
+    }
+
+    @Test(expected = RuntimeLimitException.class)
+    public void compileAndRunProgram_withInfiniteRecursion_throwsLimitException() throws Exception {
+        demoApplication.compileAndRunProgram("to proc [ proc ] proc");
     }
 
     private double getDistanceBetween(final LogoPoint start, final LogoPoint end) {

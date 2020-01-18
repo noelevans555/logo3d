@@ -3,6 +3,7 @@ package com.noelevans555.logo3d.compiler.state;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.noelevans555.logo3d.compiler.RuntimeLimits;
 import com.noelevans555.logo3d.compiler.program.parameter.result.ColorResult;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
@@ -52,11 +53,12 @@ public class StateFactory {
     /**
      * Builds a state object for use during Logo3d compilation.
      *
+     * @param runtimeLimits Thresholds to be enforced during program execution.
      * @return A state object, pre-populated with common variable values, e.g.
      *         standard colors and the constant pi.
      */
-    public State buildState() {
-        State state = new State();
+    public State buildState(final RuntimeLimits runtimeLimits) {
+        State state = new State(runtimeLimits.getMaximumStackDepth());
         PREDEFINED_RESULTS.stream().forEach(e -> state.store(e.getName(), e.getResult(), false));
         return state;
     }

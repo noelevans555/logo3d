@@ -51,6 +51,8 @@ public class LogoCompilerTest {
     private Turtle turtle;
     @Mock
     private TurtleFactory turtleFactory;
+    @Mock
+    private RuntimeLimits runtimeLimits;
 
     @InjectMocks
     private LogoCompiler logoCompiler;
@@ -59,21 +61,21 @@ public class LogoCompilerTest {
     public void setup() throws Exception {
         when(tokenizer.tokenize(TEST_PROGRAM)).thenReturn(tokenReader);
         when(programFactory.buildProgram(tokenReader)).thenReturn(program);
-        when(stateFactory.buildState()).thenReturn(state);
+        when(stateFactory.buildState(runtimeLimits)).thenReturn(state);
         when(turtleFactory.buildTurtle()).thenReturn(turtle);
         when(turtle.getLogoLines()).thenReturn(TURTLE_OUTPUT);
     }
 
     @Test
     public void compileProgram_runsProgramAndReturnsTurtleLines() throws Exception {
-        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM));
+        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM, runtimeLimits));
         verify(program).run(state, turtle);
     }
 
     @Test
     public void compileProgram_whenStoppedFromRunning_returnsTurtleLines() throws Exception {
         doThrow(new StopException()).when(program).run(state, turtle);
-        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM));
+        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM, runtimeLimits));
         verify(program).run(state, turtle);
     }
 

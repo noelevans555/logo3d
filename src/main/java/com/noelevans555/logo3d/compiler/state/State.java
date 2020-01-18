@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.noelevans555.logo3d.compiler.exception.EntityReferenceException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
+import com.noelevans555.logo3d.compiler.exception.RuntimeLimitException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.turtle.Pose;
 
@@ -23,17 +24,30 @@ public class State {
     private final List<StackFrame<Result>> resultFrames = new ArrayList<>();
     private final List<StackFrame<Pose>> poseFrames = new ArrayList<>();
 
+    private final int stackLimit;
+
     /**
      * Constructor. Initializes a new, empty state with a single stack frame.
+     *
+     * @param stackLimit The maximum number of frames the stack may be expanded to
+     *        contain.
      */
-    State() {
-        pushStack();
+    State(final int stackLimit) {
+        this.stackLimit = stackLimit;
+        resultFrames.add(new StackFrame<>());
+        poseFrames.add(new StackFrame<>());
     }
 
     /**
      * Adds a new stack frame to the evaluation stack.
+     *
+     * @throws RuntimeLimitException If the maximum number of permitted stack frames
+     *         has been exceeded.
      */
-    public void pushStack() {
+    public void pushStack() throws RuntimeLimitException {
+        if (resultFrames.size() == stackLimit) {
+            throw new RuntimeLimitException(RuntimeLimitException.MAXIMUM_STACK_DEPTH_EXCEEDED);
+        }
         resultFrames.add(new StackFrame<>());
         poseFrames.add(new StackFrame<>());
     }
