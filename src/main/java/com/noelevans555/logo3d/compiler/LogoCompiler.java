@@ -32,14 +32,28 @@ public class LogoCompiler {
     private final TurtleFactory turtleFactory;
 
     /**
-     * Compiles and runs the specified Logo3d program, returning the lines traversed
-     * during execution.
+     * Compiles and runs the specified Logo3d program using default compiler limits.
+     * The method returns the lines traversed during program execution.
      *
      * @param program A Logo3d program defined as a single string.
      * @return The lines traversed when running the Logo3d program.
      * @throws CompilerException If the program cannot be compiled or run.
      */
     public List<LogoLine> compileAndRunProgram(final String program) throws CompilerException {
+        return compileAndRunProgram(program, RuntimeLimits.DEFAULT_LIMITS);
+    }
+
+    /**
+     * Compiles and runs the specified Logo3d program, returning the lines traversed
+     * during execution.
+     *
+     * @param program A Logo3d program defined as a single string.
+     * @param runtimeLimits Limits which are not to be exceeded during compilation.
+     * @return The lines traversed when running the Logo3d program.
+     * @throws CompilerException If the program cannot be compiled or run.
+     */
+    public List<LogoLine> compileAndRunProgram(final String program, final RuntimeLimits runtimeLimits)
+            throws CompilerException {
         TokenReader tokenReader = tokenizer.tokenize(program);
         Program compiledProgram = programFactory.buildProgram(tokenReader);
         State state = stateFactory.buildState();
