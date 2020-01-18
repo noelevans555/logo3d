@@ -66,14 +66,14 @@ public class LogoCompilerTest {
 
     @Test
     public void compileProgram_runsProgramAndReturnsTurtleLines() throws Exception {
-        assertEquals(TURTLE_OUTPUT, logoCompiler.compileProgram(TEST_PROGRAM));
+        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM));
         verify(program).run(state, turtle);
     }
 
     @Test
     public void compileProgram_whenStoppedFromRunning_returnsTurtleLines() throws Exception {
         doThrow(new StopException()).when(program).run(state, turtle);
-        assertEquals(TURTLE_OUTPUT, logoCompiler.compileProgram(TEST_PROGRAM));
+        assertEquals(TURTLE_OUTPUT, logoCompiler.compileAndRunProgram(TEST_PROGRAM));
         verify(program).run(state, turtle);
     }
 

@@ -49,7 +49,7 @@ public class DemoApplication {
     @VisibleForTesting
     List<LogoLine> compileAndRunProgram(final String program) throws CompilerException {
         LogoCompiler logoCompiler = buildCompiler();
-        return logoCompiler.compileProgram(program);
+        return logoCompiler.compileAndRunProgram(program);
     }
 
     /**

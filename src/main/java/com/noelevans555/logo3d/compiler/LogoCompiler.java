@@ -39,7 +39,7 @@ public class LogoCompiler {
      * @return The lines traversed when running the Logo3d program.
      * @throws CompilerException If the program cannot be compiled or run.
      */
-    public List<LogoLine> compileProgram(final String program) throws CompilerException {
+    public List<LogoLine> compileAndRunProgram(final String program) throws CompilerException {
         TokenReader tokenReader = tokenizer.tokenize(program);
         Program compiledProgram = programFactory.buildProgram(tokenReader);
         State state = stateFactory.buildState();
