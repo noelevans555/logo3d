@@ -2,6 +2,7 @@ package com.noelevans555.logo3d;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,6 +70,20 @@ public class DemoApplicationTest {
         assertEquals(37446.6636, totalLineLength, DELTA);
         assertEquals(113.22792, averageDistanceFromOrigin, DELTA);
         assertEquals(13, colorsUsed.size());
+    }
+
+    @Test
+    public void compileAndRunProgram_withOversizedLoop_throwsLimitException() throws Exception {
+        long startTimeMillis = System.currentTimeMillis();
+        try {
+            demoApplication.compileAndRunProgram("repeat 1000000000 [ left 1 ]");
+            fail();
+        } catch (RuntimeLimitException e) {
+            assertTrue(System.currentTimeMillis() - startTimeMillis >= 2000);
+            assertTrue(System.currentTimeMillis() - startTimeMillis < 2500);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test(expected = RuntimeLimitException.class)

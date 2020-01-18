@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
+import com.noelevans555.logo3d.compiler.RuntimeLimits;
 import com.noelevans555.logo3d.compiler.exception.SyntaxException;
 import com.noelevans555.logo3d.compiler.program.instruction.Conditional;
 import com.noelevans555.logo3d.compiler.program.instruction.Instruction;
@@ -17,7 +18,7 @@ import com.noelevans555.logo3d.compiler.program.instruction.MoveForward;
 import com.noelevans555.logo3d.compiler.program.instruction.PenDown;
 import com.noelevans555.logo3d.compiler.program.instruction.Repeat;
 import com.noelevans555.logo3d.compiler.program.instruction.RunProcedure;
-import com.noelevans555.logo3d.compiler.program.instruction.TurnLeft;
+import com.noelevans555.logo3d.compiler.program.instruction.TimeoutCheck;
 import com.noelevans555.logo3d.compiler.program.parameter.NumericConstant;
 import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
 import com.noelevans555.logo3d.compiler.program.parameter.ParameterFactory;
@@ -28,9 +29,12 @@ import com.noelevans555.logo3d.compiler.program.tokens.Tokenizer;
 @RunWith(MockitoJUnitRunner.class)
 public class ProgramFactoryTest {
 
+    private static final int COMPILATION_TIMEOUT_SECONDS = 1;
+
     private InstructionFactory instructionFactory = new InstructionFactory();
     private ParameterFactory parameterFactory = new ParameterFactory();
     private Tokenizer tokenizer = new Tokenizer();
+    private RuntimeLimits runtimeLimits = new RuntimeLimits(COMPILATION_TIMEOUT_SECONDS, 100, 100);
 
     private ProgramFactory programFactory = new ProgramFactory(instructionFactory, parameterFactory);
 
@@ -40,7 +44,7 @@ public class ProgramFactoryTest {
         Program expectedProgram = makeProgram(new PenDown());
         TokenReader tokenReader = tokenizer.tokenize("pendown");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -52,7 +56,7 @@ public class ProgramFactoryTest {
         Program expectedProgram = makeForwardProgram(5.5);
         TokenReader tokenReader = tokenizer.tokenize("forward 5.5");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -64,7 +68,7 @@ public class ProgramFactoryTest {
         Program expectedProgram = makeProgram(new Repeat(new NumericConstant(12.1), makeForwardProgram(31.0)));
         TokenReader tokenReader = tokenizer.tokenize("repeat 12.1 [ forward 31.0 ]");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -76,7 +80,7 @@ public class ProgramFactoryTest {
         Program expectedProgram = makeProgram(new Make(true, "myVar", new NumericConstant(55.5)));
         TokenReader tokenReader = tokenizer.tokenize("make local myVar = 55.5");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -89,7 +93,7 @@ public class ProgramFactoryTest {
                 makeForwardProgram(1.0), makeForwardProgram(2.0)));
         TokenReader tokenReader = tokenizer.tokenize("if 17.1 > 17.0 [ forward 1 ] else [ forward 2 ]");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -102,7 +106,7 @@ public class ProgramFactoryTest {
                 new Conditional(new NumericConstant(24.5), "<", new NumericConstant(24.8), makeForwardProgram(1.5)));
         TokenReader tokenReader = tokenizer.tokenize("if 24.5 < 24.8 [ forward 1.5 ]");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -111,17 +115,14 @@ public class ProgramFactoryTest {
     @Test
     public void buildProgram_withProcedureRunInstruction_returnsExpectedProgram() throws Exception {
         // given
-        Program repeatBody = new Program(ImmutableList.of(
-                new MoveForward(new VariableReference(false, "size")),
-                new TurnLeft(new NumericConstant(90.0))));
+        Program repeatBody = makeProgram(new MoveForward(new VariableReference(false, "size")));
         Program repeatProgram = makeProgram(new Repeat(new NumericConstant(4.0), repeatBody));
         Procedure expectedProcedure = new Procedure("square", ImmutableList.of("size"), repeatProgram);
         Program expectedProgram = makeProgram(
                 new RunProcedure(ImmutableList.of(new NumericConstant(10.0)), expectedProcedure));
-        TokenReader tokenReader = tokenizer
-                .tokenize("to square size [ repeat 4 [ forward size turnleft 90 ] ] square 10");
+        TokenReader tokenReader = tokenizer.tokenize("to square size [ repeat 4 [ forward size ] ] square 10");
         // when
-        Program actualProgram = programFactory.buildProgram(tokenReader);
+        Program actualProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         // then
         assertEquals(expectedProgram, actualProgram);
         assertFalse(tokenReader.hasMoreTokens());
@@ -132,7 +133,7 @@ public class ProgramFactoryTest {
         // given
         TokenReader tokenReader = tokenizer.tokenize("circle 15");
         // when
-        programFactory.buildProgram(tokenReader);
+        programFactory.buildProgram(tokenReader, runtimeLimits);
     }
 
     @Test(expected = SyntaxException.class)
@@ -140,7 +141,7 @@ public class ProgramFactoryTest {
         // given
         TokenReader tokenReader = tokenizer.tokenize("repeat 10 [ forward 10 ] ]");
         // when
-        programFactory.buildProgram(tokenReader);
+        programFactory.buildProgram(tokenReader, runtimeLimits);
     }
 
     private Program makeForwardProgram(final double distance) {
@@ -149,7 +150,7 @@ public class ProgramFactoryTest {
     }
 
     private Program makeProgram(final Instruction instruction) {
-        return new Program(ImmutableList.of(instruction));
+        return new Program(ImmutableList.of(new TimeoutCheck(COMPILATION_TIMEOUT_SECONDS), instruction));
     }
 
 }

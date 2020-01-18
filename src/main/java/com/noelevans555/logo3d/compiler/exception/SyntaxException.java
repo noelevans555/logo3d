@@ -36,7 +36,6 @@ public class SyntaxException extends ProgramException {
     public SyntaxException(final String message, final String operation, final List<String> recentlyReadTokens) {
         super(message, operation);
         this.recentlyReadTokens = recentlyReadTokens;
-
     }
 
     @Override

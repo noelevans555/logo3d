@@ -55,7 +55,7 @@ public class LogoCompiler {
     public List<LogoLine> compileAndRunProgram(final String program, final RuntimeLimits runtimeLimits)
             throws CompilerException {
         TokenReader tokenReader = tokenizer.tokenize(program);
-        Program compiledProgram = programFactory.buildProgram(tokenReader);
+        Program compiledProgram = programFactory.buildProgram(tokenReader, runtimeLimits);
         State state = stateFactory.buildState(runtimeLimits);
         Turtle turtle = turtleFactory.buildTurtle();
         try {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.noelevans555.logo3d.compiler.RuntimeLimits;
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.exception.SyntaxException;
@@ -36,11 +37,13 @@ public class ProgramFactory {
      * Consumes program tokens to construct the Logo3d Abstract Syntax Tree (AST).
      *
      * @param tokenReader Source of tokens to read.
+     * @param runtimeLimits Thresholds to be enforced during program execution.
      * @return The constructed Logo3d AST.
      * @throws CompilerException If the AST cannot be constructed.
      */
-    public Program buildProgram(final TokenReader tokenReader) throws CompilerException {
-        ProgramBuilder programBuilder = new ProgramBuilder(tokenReader);
+    public Program buildProgram(final TokenReader tokenReader, final RuntimeLimits runtimeLimits)
+            throws CompilerException {
+        ProgramBuilder programBuilder = new ProgramBuilder(tokenReader, runtimeLimits);
         return programBuilder.buildProgram(0);
     }
 
@@ -52,6 +55,7 @@ public class ProgramFactory {
     private class ProgramBuilder {
 
         private final TokenReader tokenReader;
+        private final RuntimeLimits runtimeLimits;
         private final ProcedureRegistry procedureRegistry = new ProcedureRegistry();
 
         /**
@@ -64,6 +68,10 @@ public class ProgramFactory {
          */
         private Program buildProgram(final int depth) throws CompilerException {
             List<Instruction> instructions = new ArrayList<>();
+            // every program (including programs nested in procedure calls & loops) start by
+            // confirming that compilation timeout has not occurred.
+            instructions.add(instructionFactory.buildTimeoutCheckInstruction(runtimeLimits));
+            // now build the instructions representing the program
             while (tokenReader.hasMoreTokens()) {
                 if (tokenReader.readOptionalToken(Vocabulary.BOX_CLOSE)) {
                     if (depth == 0) {

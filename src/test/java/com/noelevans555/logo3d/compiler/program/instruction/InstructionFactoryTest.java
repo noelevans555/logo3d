@@ -1,6 +1,7 @@
 package com.noelevans555.logo3d.compiler.program.instruction;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
+import com.noelevans555.logo3d.compiler.RuntimeLimits;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.program.Procedure;
 import com.noelevans555.logo3d.compiler.program.Program;
@@ -19,6 +21,9 @@ import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InstructionFactoryTest {
+
+    private static final int TEST_TIMEOUT_IN_SECONDS = 10;
+    private static final RuntimeLimits TEST_RUNTIME_LIMITS = new RuntimeLimits(TEST_TIMEOUT_IN_SECONDS, 100, 100);
 
     @Mock
     private Parameter parameter;
@@ -62,6 +67,12 @@ public class InstructionFactoryTest {
     public void buildInstruction_whenMismatchedAssembly_throwsInternalException() throws Exception {
         Instruction instruction = instructionFactory.buildInstruction("repeat", ImmutableList.of(parameter));
         assertTrue(instruction instanceof Repeat);
+    }
+
+    @Test
+    public void buildTimeoutCheckInstruction_withRuntimeLimits_thenReturnsExpectedTimeoutCheck() throws Exception {
+        Instruction instruction = instructionFactory.buildTimeoutCheckInstruction(TEST_RUNTIME_LIMITS);
+        assertEquals(new TimeoutCheck(TEST_TIMEOUT_IN_SECONDS), instruction);
     }
 
 }

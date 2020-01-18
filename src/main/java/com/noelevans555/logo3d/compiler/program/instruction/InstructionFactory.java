@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.noelevans555.logo3d.compiler.RuntimeLimits;
 import com.noelevans555.logo3d.compiler.exception.InternalException;
 import com.noelevans555.logo3d.compiler.program.Program;
 import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
@@ -144,6 +145,17 @@ public class InstructionFactory {
                     e);
         }
 
+    }
+
+    /**
+     * Builds an instruction to confirm that the program execution timeout has not
+     * been exceeded.
+     *
+     * @param runtimeLimits Thresholds to be enforced during program execution.
+     * @return Instruction to confirm that the program execution timeout has not been exceeded.
+     */
+    public Instruction buildTimeoutCheckInstruction(final RuntimeLimits runtimeLimits) {
+        return new TimeoutCheck(runtimeLimits.getTimeoutInSeconds());
     }
 
 }
