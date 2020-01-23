@@ -49,6 +49,31 @@ public class DemoApplicationTest {
     }
 
     @Test
+    public void compileAndRunProgram_withSpiralShell_returnsExpectedLogoLines() throws Exception {
+        // compile & run
+        List<LogoLine> logoLines = demoApplication.compileAndRunProgram(DemoPrograms.SPIRAL_SHELL);
+
+        // analyze results
+        double totalLineLength = 0;
+        List<Double> distancesFromOrigin = new ArrayList<>();
+        Set<LogoColor> colorsUsed = new HashSet<>();
+        for (LogoLine logoLine : logoLines) {
+            totalLineLength += getDistanceBetween(logoLine.getStart(), logoLine.getEnd());
+            distancesFromOrigin.add(getDistanceBetween(ORIGIN, logoLine.getStart()));
+            distancesFromOrigin.add(getDistanceBetween(ORIGIN, logoLine.getEnd()));
+            colorsUsed.add(logoLine.getColor());
+        }
+        double averageDistanceFromOrigin = distancesFromOrigin.stream().mapToDouble(d -> d).average().getAsDouble();
+
+        // assert
+        assertEquals(18000, logoLines.size());
+        assertEquals(17999.1, totalLineLength, DELTA);
+        // program is non-deterministic so support variance in following checks.
+        assertEquals(57.53452, averageDistanceFromOrigin, DELTA);
+        assertEquals(18000, colorsUsed.size());
+    }
+
+    @Test
     public void compileAndRunProgram_withRecursiveTree_returnsExpectedLogoLines() throws Exception {
         // compile & run
         List<LogoLine> logoLines = demoApplication.compileAndRunProgram(DemoPrograms.RECURSIVE_TREE);

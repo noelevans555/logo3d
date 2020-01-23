@@ -47,9 +47,9 @@ class DemoVisualizer extends JFrame {
     @RequiredArgsConstructor
     @Getter
     private enum Projection {
-        XY(e -> e.getX(), e -> e.getY()),
-        ZY(e -> e.getZ(), e -> e.getY()),
-        XZ(e -> e.getX(), e -> e.getZ());
+        XY(LogoPoint::getX, LogoPoint::getY),
+        ZY(LogoPoint::getZ, LogoPoint::getY),
+        XZ(LogoPoint::getX, LogoPoint::getZ);
 
         private final Function<LogoPoint, Double> horizontalAxis;
         private final Function<LogoPoint, Double> verticalAxis;
