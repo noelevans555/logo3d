@@ -2,8 +2,8 @@
 
 A compiler for the [Logo programming language](https://en.wikipedia.org/wiki/Logo_%28programming_language%29) featuring language extensions for navigations in three-dimensional space. The compiler takes a logo3d program string and outputs a collection of colored lines defined in terms of their X, Y, & Z coordinates.
 
+The compiler is provided as 'headless' - it is hoped that developers with UI expertise can provide application front ends and GL acceleration appropriate for each target platform. However, to demonstrate the power of Logo3d the project does contain a simple [DemoVisualizer](src/main/java/com/noelevans555/logo3d/DemoVisualizer.java) along with three [predefined programs](src/main/java/com/noelevans555/logo3d/DemoPrograms.java):
 
-The compiler is supplied with a demo visualizer and three [predefined programs](src/main/java/com/noelevans555/logo3d/DemoPrograms.java):
 
 **GRID_SPHERE**
 
@@ -28,7 +28,7 @@ The following dependencies are needed to build the project and run the demo appl
 
 The demo application is run from the downloaded/cloned project directory, i.e. the directory containing `pom.xml`.
 
-To run the application:
+To run the demo application:
 
 ```
 mvn exec:java
