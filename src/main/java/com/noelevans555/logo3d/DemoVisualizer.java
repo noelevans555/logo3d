@@ -72,11 +72,11 @@ class DemoVisualizer extends JFrame {
      */
     void display() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(PANEL_WIDTH * Projection.values().length, PANEL_HEIGHT);
         setLayout(new GridLayout(1, Projection.values().length));
         for (Projection viewAxis : Projection.values()) {
             add(new ProjectionPane(viewAxis));
         }
+        pack();
         setVisible(true);
     }
 
