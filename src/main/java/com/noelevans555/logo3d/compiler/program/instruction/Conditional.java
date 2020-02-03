@@ -1,7 +1,6 @@
 package com.noelevans555.logo3d.compiler.program.instruction;
 
 import com.noelevans555.logo3d.compiler.exception.CompilerException;
-import com.noelevans555.logo3d.compiler.exception.StopException;
 import com.noelevans555.logo3d.compiler.program.Program;
 import com.noelevans555.logo3d.compiler.program.parameter.Parameter;
 import com.noelevans555.logo3d.compiler.state.State;
@@ -52,7 +51,7 @@ public class Conditional implements Instruction {
     }
 
     @Override
-    public void run(final State state, final Turtle turtle) throws StopException, CompilerException {
+    public void run(final State state, final Turtle turtle) throws CompilerException {
         double leftValue = leftParameter.evaluate(state).getNumeric("if");
         double rightValue = rightParameter.evaluate(state).getNumeric("if");
 

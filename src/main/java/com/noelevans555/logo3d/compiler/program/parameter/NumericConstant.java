@@ -1,6 +1,5 @@
 package com.noelevans555.logo3d.compiler.program.parameter;
 
-import com.noelevans555.logo3d.compiler.exception.CompilerException;
 import com.noelevans555.logo3d.compiler.program.parameter.result.Result;
 import com.noelevans555.logo3d.compiler.program.parameter.result.NumericResult;
 import com.noelevans555.logo3d.compiler.state.State;
@@ -34,7 +33,7 @@ public class NumericConstant implements Parameter {
     }
 
     @Override
-    public Result evaluate(final State state) throws CompilerException {
+    public Result evaluate(final State state) {
         return new NumericResult(value).conditionallyNegate(isNegated);
     }
 

@@ -1,7 +1,5 @@
 package com.noelevans555.logo3d.compiler.program.instruction;
 
-import com.noelevans555.logo3d.compiler.exception.CompilerException;
-import com.noelevans555.logo3d.compiler.exception.StopException;
 import com.noelevans555.logo3d.compiler.state.State;
 import com.noelevans555.logo3d.compiler.turtle.Turtle;
 
@@ -21,7 +19,7 @@ import lombok.ToString;
 public class PenDown implements Instruction {
 
     @Override
-    public void run(final State state, final Turtle turtle) throws StopException, CompilerException {
+    public void run(final State state, final Turtle turtle) {
         turtle.setDrawing(true);
     }
 
