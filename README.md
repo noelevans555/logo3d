@@ -28,10 +28,10 @@ The following dependencies are needed to build the project and run the demo appl
 
 The demo application is run from the downloaded/cloned project directory, i.e. the directory containing `pom.xml`.
 
-To run the demo application:
+To compile & run the demo application:
 
 ```
-mvn exec:java
+mvn compile exec:java
 ```
 
 The demo application runs GRID_SPHERE from the [predefined programs](src/main/java/com/noelevans555/logo3d/DemoPrograms.java). An alternative program, or custom program string, can be specified [here](https://github.com/noelevans555/logo3d/blob/master/src/main/java/com/noelevans555/logo3d/DemoApplication.java#L36).
